@@ -57,7 +57,7 @@
     }
 
     main {
-      width: min(1120px, 94vw);
+      width: min(1160px, 94vw);
       margin: 24px auto;
     }
 
@@ -76,7 +76,8 @@
       margin-bottom: 20px;
     }
 
-    .panel h2 {
+    .panel h2,
+    .panel h3 {
       margin-top: 0;
     }
 
@@ -94,6 +95,18 @@
     }
 
     .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .prompt-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .export-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 14px;
@@ -229,7 +242,7 @@
 
     .stats-grid {
       display: grid;
-      grid-template-columns: repeat(6, 1fr);
+      grid-template-columns: repeat(7, 1fr);
       gap: 14px;
     }
 
@@ -305,22 +318,38 @@
       font-family: Arial, Helvetica, sans-serif;
     }
 
-    .prompt-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 14px;
+    .export-card {
+      background: var(--panel-light);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 16px;
     }
 
-    @media (max-width: 760px) {
+    .export-card h3 {
+      margin-top: 0;
+      margin-bottom: 8px;
+    }
+
+    .export-card p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .export-card button {
+      width: 100%;
+    }
+
+    @media (max-width: 860px) {
       .app-header,
       .workspace-title {
         flex-direction: column;
       }
 
       .form-grid,
+      .prompt-grid,
+      .export-grid,
       .stats-grid,
-      .task-input-row,
-      .prompt-grid {
+      .task-input-row {
         grid-template-columns: 1fr;
       }
 
@@ -342,7 +371,7 @@
   <header class="app-header">
     <div>
       <h1>The Carnival Forge</h1>
-      <p>A creative engine for worlds, books, games, canon, drafts, tasks, prompts, and exports.</p>
+      <p>A creative engine for worlds, books, games, canon, drafts, prompts, tasks, and exports.</p>
     </div>
 
     <button id="backToDashboardBtn" class="secondary-btn hidden">Dashboard</button>
@@ -404,6 +433,7 @@
         <button class="tab-btn" data-tab="canonTab">Canon</button>
         <button class="tab-btn" data-tab="draftsTab">Drafts</button>
         <button class="tab-btn" data-tab="promptForgeTab">Prompt Forge</button>
+        <button class="tab-btn" data-tab="exportStudioTab">Export Studio</button>
         <button class="tab-btn" data-tab="tasksTab">Tasks</button>
       </nav>
 
@@ -417,10 +447,11 @@
           <div class="stat-card"><span id="promptsCount">0</span><p>Prompts</p></div>
           <div class="stat-card"><span id="tasksCount">0</span><p>Tasks</p></div>
           <div class="stat-card"><span id="completedTasksCount">0</span><p>Done</p></div>
+          <div class="stat-card"><span id="exportsCount">0</span><p>Exports</p></div>
         </div>
 
         <h3>Next Recommended Step</h3>
-        <p id="recommendedStep" class="callout">Add your first note, canon entry, draft, prompt, or task.</p>
+        <p id="recommendedStep" class="callout">Add your first note, canon entry, draft, prompt, export, or task.</p>
       </section>
 
       <section id="notesTab" class="tab-panel panel hidden">
@@ -572,6 +603,66 @@
         <div id="promptsList" class="item-list"></div>
       </section>
 
+      <section id="exportStudioTab" class="tab-panel panel hidden">
+        <h2>Export Studio</h2>
+        <p class="small-note">
+          Export the whole project or specific parts as usable text files.
+        </p>
+
+        <div class="export-grid">
+          <div class="export-card">
+            <h3>Project JSON</h3>
+            <p>Complete structured backup of the project.</p>
+            <button id="exportJsonBtn">Export Project JSON</button>
+          </div>
+
+          <div class="export-card">
+            <h3>Project Summary TXT</h3>
+            <p>Overview, counts, and recommended next step.</p>
+            <button id="exportSummaryBtn">Export Summary TXT</button>
+          </div>
+
+          <div class="export-card">
+            <h3>Notes TXT</h3>
+            <p>Export all notes in one text file.</p>
+            <button id="exportNotesBtn">Export Notes TXT</button>
+          </div>
+
+          <div class="export-card">
+            <h3>Canon TXT</h3>
+            <p>Export all canon entries in one text file.</p>
+            <button id="exportCanonBtn">Export Canon TXT</button>
+          </div>
+
+          <div class="export-card">
+            <h3>Drafts TXT</h3>
+            <p>Export all drafts in one text file.</p>
+            <button id="exportDraftsBtn">Export Drafts TXT</button>
+          </div>
+
+          <div class="export-card">
+            <h3>Prompts TXT</h3>
+            <p>Export all saved prompts in one text file.</p>
+            <button id="exportPromptsBtn">Export Prompts TXT</button>
+          </div>
+
+          <div class="export-card">
+            <h3>Tasks TXT</h3>
+            <p>Export the project task list.</p>
+            <button id="exportTasksBtn">Export Tasks TXT</button>
+          </div>
+
+          <div class="export-card">
+            <h3>Full Bundle TXT</h3>
+            <p>Everything in one combined readable text bundle.</p>
+            <button id="exportBundleBtn">Export Full Bundle TXT</button>
+          </div>
+        </div>
+
+        <h3>Export History</h3>
+        <div id="exportsList" class="item-list"></div>
+      </section>
+
       <section id="tasksTab" class="tab-panel panel hidden">
         <h2>Tasks</h2>
 
@@ -586,11 +677,11 @@
   </main>
 
   <footer>
-    <p>The Carnival Forge v0.3 — AI Prompt Forge</p>
+    <p>The Carnival Forge v0.4 — Export Studio</p>
   </footer>
 
   <script>
-    const STORAGE_KEY = "carnivalForgeProjects_v03";
+    const STORAGE_KEY = "carnivalForgeProjects_v04";
 
     let projects = [];
     let activeProjectId = null;
@@ -613,6 +704,7 @@
     function loadProjects() {
       const saved =
         localStorage.getItem(STORAGE_KEY) ||
+        localStorage.getItem("carnivalForgeProjects_v03") ||
         localStorage.getItem("carnivalForgeProjects_v02") ||
         localStorage.getItem("carnivalForgeProjects_v01");
 
@@ -763,6 +855,7 @@
       renderCanon();
       renderDrafts();
       renderPromptForge();
+      renderExportStudio();
       renderTasks();
     }
 
@@ -776,6 +869,7 @@
       $("promptsCount").textContent = project.prompts.length;
       $("tasksCount").textContent = project.tasks.length;
       $("completedTasksCount").textContent = project.tasks.filter(task => task.completed).length;
+      $("exportsCount").textContent = project.exports.length;
 
       if (project.notes.length === 0) {
         $("recommendedStep").textContent = "Add your first project note. Capture the messy idea before polishing anything.";
@@ -785,6 +879,8 @@
         $("recommendedStep").textContent = "Create your first draft. Try a chapter, scene, rule section, quest, or lore entry.";
       } else if (project.prompts.length === 0) {
         $("recommendedStep").textContent = "Use Prompt Forge to generate and save your first AI prompt.";
+      } else if (project.exports.length === 0) {
+        $("recommendedStep").textContent = "Use Export Studio to export your first summary, draft set, or full bundle.";
       } else {
         const nextTask = project.tasks.find(task => !task.completed);
         $("recommendedStep").textContent = nextTask ? `Next task: ${nextTask.title}` : "All current tasks are complete. Add the next milestone.";
@@ -1115,6 +1211,7 @@
 
       const text = `${draft.title}\nType: ${draft.type}\nStatus: ${draft.status}\nVersion: ${draft.version || 1}\n\n${draft.body}`;
       downloadFile(`${makeSafeFileName(draft.title)}.txt`, text, "text/plain");
+      logExport("Single Draft TXT", `${draft.title}.txt`);
     }
 
     function renderPromptForge() {
@@ -1348,6 +1445,7 @@ RESPONSE REQUIREMENTS
       if (!prompt) return;
 
       downloadFile(`${makeSafeFileName(prompt.title)}.txt`, prompt.body, "text/plain");
+      logExport("Single Prompt TXT", `${prompt.title}.txt`);
     }
 
     function deleteSavedPrompt(promptId) {
@@ -1381,6 +1479,228 @@ RESPONSE REQUIREMENTS
       }
 
       downloadFile("carnival-forge-prompt.txt", text, "text/plain");
+      logExport("Current Prompt TXT", "carnival-forge-prompt.txt");
+    }
+
+    function buildProjectSummaryText(project) {
+      const completedTasks = project.tasks.filter(task => task.completed).length;
+      const nextTask = project.tasks.find(task => !task.completed);
+
+      return `THE CARNIVAL FORGE — PROJECT SUMMARY
+
+TITLE
+${project.title}
+
+CATEGORY
+${project.category}
+
+DESCRIPTION
+${project.description}
+
+STATUS
+${project.status}
+
+COUNTS
+Notes: ${project.notes.length}
+Canon Entries: ${project.canon.length}
+Drafts: ${project.drafts.length}
+Saved Prompts: ${project.prompts.length}
+Tasks: ${project.tasks.length}
+Completed Tasks: ${completedTasks}
+Exports: ${project.exports.length}
+
+NEXT RECOMMENDED STEP
+${nextTask ? nextTask.title : "No unfinished tasks. Add the next milestone."}
+
+CREATED
+${formatDate(project.createdAt)}
+
+UPDATED
+${formatDate(project.updatedAt)}
+`;
+    }
+
+    function buildNotesText(project) {
+      if (project.notes.length === 0) {
+        return `NOTES\n\nNo notes yet.`;
+      }
+
+      return `NOTES\n\n${project.notes.map((note, index) =>
+        `${index + 1}. ${note.body}\nCreated: ${formatDate(note.createdAt)}`
+      ).join("\n\n")}`;
+    }
+
+    function buildCanonText(project) {
+      if (project.canon.length === 0) {
+        return `CANON\n\nNo canon entries yet.`;
+      }
+
+      return `CANON\n\n${project.canon.map((entry, index) =>
+        `${index + 1}. ${entry.name}\nType: ${entry.type}\nStatus: ${entry.status}\nDescription: ${entry.description}\nCreated: ${formatDate(entry.createdAt)}`
+      ).join("\n\n")}`;
+    }
+
+    function buildDraftsText(project) {
+      if (project.drafts.length === 0) {
+        return `DRAFTS\n\nNo drafts yet.`;
+      }
+
+      return `DRAFTS\n\n${project.drafts.map((draft, index) =>
+        `${index + 1}. ${draft.title}\nType: ${draft.type}\nStatus: ${draft.status}\nVersion: ${draft.version || 1}\nCreated: ${formatDate(draft.createdAt)}\nUpdated: ${formatDate(draft.updatedAt)}\n\n${draft.body}`
+      ).join("\n\n------------------------------\n\n")}`;
+    }
+
+    function buildPromptsText(project) {
+      if (project.prompts.length === 0) {
+        return `PROMPTS\n\nNo saved prompts yet.`;
+      }
+
+      return `PROMPTS\n\n${project.prompts.map((prompt, index) =>
+        `${index + 1}. ${prompt.title}\nType: ${prompt.type}\nCreated: ${formatDate(prompt.createdAt)}\n\n${prompt.body}`
+      ).join("\n\n==============================\n\n")}`;
+    }
+
+    function buildTasksText(project) {
+      if (project.tasks.length === 0) {
+        return `TASKS\n\nNo tasks yet.`;
+      }
+
+      return `TASKS\n\n${project.tasks.map((task, index) =>
+        `${index + 1}. [${task.completed ? "x" : " "}] ${task.title}\nCreated: ${formatDate(task.createdAt)}`
+      ).join("\n\n")}`;
+    }
+
+    function buildFullBundleText(project) {
+      return `${buildProjectSummaryText(project)}
+
+==================================================
+${buildNotesText(project)}
+
+==================================================
+${buildCanonText(project)}
+
+==================================================
+${buildDraftsText(project)}
+
+==================================================
+${buildPromptsText(project)}
+
+==================================================
+${buildTasksText(project)}
+`;
+    }
+
+    function logExport(type, filename) {
+      const project = getActiveProject();
+      if (!project) return;
+
+      project.exports.unshift({
+        id: generateId("export"),
+        type,
+        filename,
+        createdAt: nowISO()
+      });
+
+      project.updatedAt = nowISO();
+      saveProjects();
+      renderExportStudio();
+      renderOverview();
+    }
+
+    function renderExportStudio() {
+      const project = getActiveProject();
+      if (!project) return;
+
+      const list = $("exportsList");
+      list.innerHTML = "";
+
+      if (project.exports.length === 0) {
+        list.innerHTML = `<div class="item-card"><p>No exports yet.</p></div>`;
+        return;
+      }
+
+      project.exports.forEach(entry => {
+        const card = document.createElement("article");
+        card.className = "item-card";
+        card.innerHTML = `
+          <h3>${escapeHTML(entry.type)}</h3>
+          <p><span class="badge">${escapeHTML(entry.filename)}</span></p>
+          <p class="muted">${formatDate(entry.createdAt)}</p>
+        `;
+        list.appendChild(card);
+      });
+    }
+
+    function exportProjectJson() {
+      const project = getActiveProject();
+      if (!project) return;
+
+      const filename = `${makeSafeFileName(project.title)}-backup.json`;
+      downloadFile(filename, JSON.stringify(project, null, 2), "application/json");
+      logExport("Project JSON", filename);
+    }
+
+    function exportProjectSummary() {
+      const project = getActiveProject();
+      if (!project) return;
+
+      const filename = `${makeSafeFileName(project.title)}-summary.txt`;
+      downloadFile(filename, buildProjectSummaryText(project), "text/plain");
+      logExport("Project Summary TXT", filename);
+    }
+
+    function exportNotesText() {
+      const project = getActiveProject();
+      if (!project) return;
+
+      const filename = `${makeSafeFileName(project.title)}-notes.txt`;
+      downloadFile(filename, buildNotesText(project), "text/plain");
+      logExport("Notes TXT", filename);
+    }
+
+    function exportCanonTextFile() {
+      const project = getActiveProject();
+      if (!project) return;
+
+      const filename = `${makeSafeFileName(project.title)}-canon.txt`;
+      downloadFile(filename, buildCanonText(project), "text/plain");
+      logExport("Canon TXT", filename);
+    }
+
+    function exportDraftsTextFile() {
+      const project = getActiveProject();
+      if (!project) return;
+
+      const filename = `${makeSafeFileName(project.title)}-drafts.txt`;
+      downloadFile(filename, buildDraftsText(project), "text/plain");
+      logExport("Drafts TXT", filename);
+    }
+
+    function exportPromptsTextFile() {
+      const project = getActiveProject();
+      if (!project) return;
+
+      const filename = `${makeSafeFileName(project.title)}-prompts.txt`;
+      downloadFile(filename, buildPromptsText(project), "text/plain");
+      logExport("Prompts TXT", filename);
+    }
+
+    function exportTasksTextFile() {
+      const project = getActiveProject();
+      if (!project) return;
+
+      const filename = `${makeSafeFileName(project.title)}-tasks.txt`;
+      downloadFile(filename, buildTasksText(project), "text/plain");
+      logExport("Tasks TXT", filename);
+    }
+
+    function exportFullBundle() {
+      const project = getActiveProject();
+      if (!project) return;
+
+      const filename = `${makeSafeFileName(project.title)}-full-bundle.txt`;
+      downloadFile(filename, buildFullBundleText(project), "text/plain");
+      logExport("Full Bundle TXT", filename);
     }
 
     function addTask() {
@@ -1467,10 +1787,7 @@ RESPONSE REQUIREMENTS
     }
 
     function exportActiveProject() {
-      const project = getActiveProject();
-      if (!project) return;
-
-      downloadFile(`${makeSafeFileName(project.title)}-backup.json`, JSON.stringify(project, null, 2), "application/json");
+      exportProjectJson();
     }
 
     function importProject(event) {
@@ -1546,7 +1863,7 @@ RESPONSE REQUIREMENTS
         notes: [
           {
             id: generateId("note"),
-            body: "First goal: build the project core, draft manager, and prompt forge using a single-file replacement workflow.",
+            body: "First goal: build the project core, draft manager, prompt forge, and export studio using a single-file replacement workflow.",
             createdAt: now
           }
         ],
@@ -1576,19 +1893,19 @@ RESPONSE REQUIREMENTS
         tasks: [
           {
             id: generateId("task"),
-            title: "Test AI Prompt Forge",
+            title: "Test Export Studio",
             completed: false,
             createdAt: now
           },
           {
             id: generateId("task"),
-            title: "Generate a Continue Draft prompt",
+            title: "Export project summary",
             completed: false,
             createdAt: now
           },
           {
             id: generateId("task"),
-            title: "Export v0.3 JSON backup",
+            title: "Export full project bundle",
             completed: false,
             createdAt: now
           }
@@ -1614,6 +1931,15 @@ RESPONSE REQUIREMENTS
       $("copyPromptBtn").addEventListener("click", copyCurrentPrompt);
       $("exportPromptBtn").addEventListener("click", exportCurrentPrompt);
       $("savePromptBtn").addEventListener("click", saveCurrentPrompt);
+
+      $("exportJsonBtn").addEventListener("click", exportProjectJson);
+      $("exportSummaryBtn").addEventListener("click", exportProjectSummary);
+      $("exportNotesBtn").addEventListener("click", exportNotesText);
+      $("exportCanonBtn").addEventListener("click", exportCanonTextFile);
+      $("exportDraftsBtn").addEventListener("click", exportDraftsTextFile);
+      $("exportPromptsBtn").addEventListener("click", exportPromptsTextFile);
+      $("exportTasksBtn").addEventListener("click", exportTasksTextFile);
+      $("exportBundleBtn").addEventListener("click", exportFullBundle);
 
       $("addTaskBtn").addEventListener("click", addTask);
       $("exportProjectBtn").addEventListener("click", exportActiveProject);
@@ -1704,10 +2030,10 @@ RESPONSE REQUIREMENTS
       loadProjects();
       seedStarterProjectIfEmpty();
       renderDashboard();
-      console.log("The Carnival Forge v0.3 loaded successfully.");
+      console.log("The Carnival Forge v0.4 loaded successfully.");
     }
 
     document.addEventListener("DOMContentLoaded", initApp);
   </script>
 </body>
-        </html>
+              </html>
