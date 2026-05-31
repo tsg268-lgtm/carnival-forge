@@ -1,59 +1,1713 @@
-{
-  "id": "project_1780225962192_tgwynpv",
-  "title": "The Carnival Forge",
-  "category": "Creative Engine",
-  "description": "A creative command center for building worlds, books, games, canon, drafts, tasks, and exports.",
-  "status": "Active",
-  "notes": [
-    {
-      "id": "note_1780225962192_0wa5sua",
-      "body": "First goal: build the project core. Create projects, save notes, save canon, save tasks, and export backups.",
-      "createdAt": "2026-05-31T11:12:42.192Z"
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>The Carnival Forge</title>
+
+  <style>
+    :root {
+      --bg: #120d16;
+      --panel: #1f1726;
+      --panel-light: #2b2034;
+      --text: #f5edf7;
+      --muted: #b9a8c2;
+      --accent: #ff3d81;
+      --accent-2: #ffd166;
+      --danger: #ff5b5b;
+      --success: #53d769;
+      --border: #3b2a47;
+      --shadow: rgba(0, 0, 0, 0.35);
     }
-  ],
-  "canon": [
-    {
-      "id": "canon_1780225962192_5f0bfse",
-      "name": "The Carnival Forge",
-      "type": "Project Title",
-      "status": "Active Canon",
-      "description": "The main creative engine being built as a browser-first app that can later grow into a full creative operating system.",
-      "createdAt": "2026-05-31T11:12:42.192Z"
+
+    * {
+      box-sizing: border-box;
     }
-  ],
-  "drafts": [
-    {
-      "id": "draft_1780229468296_at8i7nm",
-      "title": "Chapter 1: Parking Lot Pimping",
-      "type": "Chapter",
-      "status": "Idea",
-      "body": "First chapter of my first gathering experience",
-      "version": 3,
-      "createdAt": "2026-05-31T12:11:08.296Z",
-      "updatedAt": "2026-05-31T12:24:22.187Z"
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(255, 61, 129, 0.22), transparent 30%),
+        radial-gradient(circle at bottom right, rgba(255, 209, 102, 0.14), transparent 30%),
+        var(--bg);
+      color: var(--text);
+      min-height: 100vh;
     }
-  ],
-  "tasks": [
-    {
-      "id": "task_1780225962192_8kwiyfh",
-      "title": "Create GitHub repo",
-      "completed": true,
-      "createdAt": "2026-05-31T11:12:42.192Z"
-    },
-    {
-      "id": "task_1780225962192_s5yvwv1",
-      "title": "Add README.md, index.html, style.css, and script.js",
-      "completed": false,
-      "createdAt": "2026-05-31T11:12:42.192Z"
-    },
-    {
-      "id": "task_1780225962192_tbppzwl",
-      "title": "Test project creation and JSON export",
-      "completed": false,
-      "createdAt": "2026-05-31T11:12:42.192Z"
+
+    .app-header {
+      padding: 24px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(18, 13, 22, 0.94);
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: center;
     }
-  ],
-  "exports": [],
-  "createdAt": "2026-05-31T11:12:42.192Z",
-  "updatedAt": "2026-05-31T12:24:22.194Z"
-}
+
+    .app-header h1 {
+      margin: 0 0 6px;
+      font-size: 2rem;
+    }
+
+    .app-header p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    main {
+      width: min(1120px, 94vw);
+      margin: 24px auto;
+    }
+
+    footer {
+      text-align: center;
+      color: var(--muted);
+      padding: 24px;
+    }
+
+    .panel {
+      background: rgba(31, 23, 38, 0.96);
+      border: 1px solid var(--border);
+      box-shadow: 0 12px 30px var(--shadow);
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .panel h2 {
+      margin-top: 0;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .muted {
+      color: var(--muted);
+    }
+
+    .small-note {
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .full-width {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    input,
+    textarea,
+    select {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px;
+      background: #140f19;
+      color: var(--text);
+      font-size: 1rem;
+    }
+
+    textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    button {
+      border: 0;
+      border-radius: 10px;
+      padding: 12px 16px;
+      background: var(--accent);
+      color: white;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 14px;
+    }
+
+    button:hover {
+      filter: brightness(1.08);
+    }
+
+    .secondary-btn {
+      background: var(--panel-light);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .danger-btn {
+      background: var(--danger);
+    }
+
+    .success-btn {
+      background: var(--success);
+      color: #061108;
+    }
+
+    .project-list,
+    .item-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .project-card,
+    .item-card {
+      background: var(--panel-light);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 16px;
+    }
+
+    .project-card h3,
+    .item-card h3 {
+      margin: 0 0 8px;
+    }
+
+    .project-card p,
+    .item-card p {
+      margin: 6px 0;
+      color: var(--muted);
+      white-space: pre-wrap;
+    }
+
+    .card-actions,
+    .inline-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .card-actions button,
+    .inline-actions button {
+      margin-top: 10px;
+    }
+
+    .workspace-title {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: flex-start;
+    }
+
+    .workspace-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .tab-btn {
+      background: var(--panel-light);
+      border: 1px solid var(--border);
+      color: var(--text);
+      margin-top: 0;
+    }
+
+    .tab-btn.active {
+      background: var(--accent);
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 14px;
+    }
+
+    .stat-card {
+      background: #140f19;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 16px;
+      text-align: center;
+    }
+
+    .stat-card span {
+      display: block;
+      font-size: 2rem;
+      color: var(--accent-2);
+      font-weight: 800;
+    }
+
+    .stat-card p {
+      margin: 6px 0 0;
+      color: var(--muted);
+    }
+
+    .callout {
+      background: #140f19;
+      border-left: 4px solid var(--accent-2);
+      padding: 14px;
+      border-radius: 10px;
+      white-space: pre-wrap;
+    }
+
+    .task-input-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      align-items: start;
+    }
+
+    .task-input-row button {
+      margin-top: 0;
+    }
+
+    .task-complete {
+      opacity: 0.65;
+      text-decoration: line-through;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 4px 8px;
+      background: #140f19;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      color: var(--accent-2);
+      font-size: 0.8rem;
+      margin: 2px 4px 2px 0;
+    }
+
+    .draft-body-preview {
+      max-height: 160px;
+      overflow: auto;
+      padding: 12px;
+      background: #140f19;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      white-space: pre-wrap;
+      color: var(--text) !important;
+    }
+
+    .prompt-output {
+      min-height: 300px;
+      white-space: pre-wrap;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .prompt-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    @media (max-width: 760px) {
+      .app-header,
+      .workspace-title {
+        flex-direction: column;
+      }
+
+      .form-grid,
+      .stats-grid,
+      .task-input-row,
+      .prompt-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .workspace-actions,
+      .inline-actions {
+        width: 100%;
+      }
+
+      .workspace-actions button,
+      .task-input-row button,
+      .inline-actions button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="app-header">
+    <div>
+      <h1>The Carnival Forge</h1>
+      <p>A creative engine for worlds, books, games, canon, drafts, tasks, prompts, and exports.</p>
+    </div>
+
+    <button id="backToDashboardBtn" class="secondary-btn hidden">Dashboard</button>
+  </header>
+
+  <main>
+    <section id="dashboardView">
+      <section class="panel">
+        <h2>Create New Project</h2>
+
+        <div class="form-grid">
+          <label>
+            Project Title
+            <input id="projectTitleInput" type="text" placeholder="Dark Carnival Universe" />
+          </label>
+
+          <label>
+            Category
+            <input id="projectCategoryInput" type="text" placeholder="Worldbuilding, Game, Book, System..." />
+          </label>
+
+          <label class="full-width">
+            Description
+            <textarea id="projectDescriptionInput" placeholder="What is this project?"></textarea>
+          </label>
+        </div>
+
+        <button id="createProjectBtn">Create Project</button>
+      </section>
+
+      <section class="panel">
+        <h2>Your Projects</h2>
+        <div id="projectList" class="project-list"></div>
+      </section>
+
+      <section class="panel">
+        <h2>Import Backup</h2>
+        <p class="muted">Import a JSON backup created by The Carnival Forge.</p>
+        <input id="importFileInput" type="file" accept=".json,application/json" />
+      </section>
+    </section>
+
+    <section id="workspaceView" class="hidden">
+      <section class="workspace-title panel">
+        <div>
+          <h2 id="workspaceProjectTitle">Project Title</h2>
+          <p id="workspaceProjectDescription" class="muted"></p>
+        </div>
+
+        <div class="workspace-actions">
+          <button id="exportProjectBtn" class="secondary-btn">Export JSON</button>
+          <button id="deleteProjectBtn" class="danger-btn">Delete Project</button>
+        </div>
+      </section>
+
+      <nav class="tabs">
+        <button class="tab-btn active" data-tab="overviewTab">Overview</button>
+        <button class="tab-btn" data-tab="notesTab">Notes</button>
+        <button class="tab-btn" data-tab="canonTab">Canon</button>
+        <button class="tab-btn" data-tab="draftsTab">Drafts</button>
+        <button class="tab-btn" data-tab="promptForgeTab">Prompt Forge</button>
+        <button class="tab-btn" data-tab="tasksTab">Tasks</button>
+      </nav>
+
+      <section id="overviewTab" class="tab-panel panel">
+        <h2>Overview</h2>
+
+        <div class="stats-grid">
+          <div class="stat-card"><span id="notesCount">0</span><p>Notes</p></div>
+          <div class="stat-card"><span id="canonCount">0</span><p>Canon</p></div>
+          <div class="stat-card"><span id="draftsCount">0</span><p>Drafts</p></div>
+          <div class="stat-card"><span id="promptsCount">0</span><p>Prompts</p></div>
+          <div class="stat-card"><span id="tasksCount">0</span><p>Tasks</p></div>
+          <div class="stat-card"><span id="completedTasksCount">0</span><p>Done</p></div>
+        </div>
+
+        <h3>Next Recommended Step</h3>
+        <p id="recommendedStep" class="callout">Add your first note, canon entry, draft, prompt, or task.</p>
+      </section>
+
+      <section id="notesTab" class="tab-panel panel hidden">
+        <h2>Notes</h2>
+
+        <textarea id="noteInput" placeholder="Drop raw ideas, scene fragments, mechanics, plans, or messy thoughts here..."></textarea>
+        <button id="addNoteBtn">Add Note</button>
+
+        <div id="notesList" class="item-list"></div>
+      </section>
+
+      <section id="canonTab" class="tab-panel panel hidden">
+        <h2>Canon</h2>
+
+        <div class="form-grid">
+          <label>
+            Name
+            <input id="canonNameInput" type="text" placeholder="Riven Hale" />
+          </label>
+
+          <label>
+            Type
+            <input id="canonTypeInput" type="text" placeholder="Character, Location, Rule, Title..." />
+          </label>
+
+          <label>
+            Status
+            <select id="canonStatusInput">
+              <option value="Active Canon">Active Canon</option>
+              <option value="Deprecated">Deprecated</option>
+              <option value="Draft">Draft</option>
+              <option value="Needs Review">Needs Review</option>
+            </select>
+          </label>
+
+          <label class="full-width">
+            Description
+            <textarea id="canonDescriptionInput" placeholder="What is permanently true about this?"></textarea>
+          </label>
+        </div>
+
+        <button id="addCanonBtn">Add Canon Entry</button>
+
+        <div id="canonList" class="item-list"></div>
+      </section>
+
+      <section id="draftsTab" class="tab-panel panel hidden">
+        <h2>Draft Manager</h2>
+
+        <p class="small-note">Use this for chapters, scenes, rules, quests, lore sections, marketing copy, PDF sections, or app text.</p>
+
+        <div class="form-grid">
+          <label>
+            Draft Title
+            <input id="draftTitleInput" type="text" placeholder="Chapter 1: The Gate Opens" />
+          </label>
+
+          <label>
+            Draft Type
+            <select id="draftTypeInput">
+              <option value="Chapter">Chapter</option>
+              <option value="Scene">Scene</option>
+              <option value="Rule Section">Rule Section</option>
+              <option value="Quest">Quest</option>
+              <option value="Lore">Lore</option>
+              <option value="Character Profile">Character Profile</option>
+              <option value="Marketing Copy">Marketing Copy</option>
+              <option value="PDF Section">PDF Section</option>
+              <option value="App Copy">App Copy</option>
+              <option value="Other">Other</option>
+            </select>
+          </label>
+
+          <label>
+            Status
+            <select id="draftStatusInput">
+              <option value="Idea">Idea</option>
+              <option value="Drafting">Drafting</option>
+              <option value="Needs Review">Needs Review</option>
+              <option value="Revised">Revised</option>
+              <option value="Final">Final</option>
+              <option value="Published">Published</option>
+            </select>
+          </label>
+
+          <label class="full-width">
+            Body
+            <textarea id="draftBodyInput" placeholder="Write or paste the draft here..."></textarea>
+          </label>
+        </div>
+
+        <div class="inline-actions">
+          <button id="saveDraftBtn">Save New Draft</button>
+          <button id="updateDraftBtn" class="success-btn hidden">Update Draft</button>
+          <button id="cancelEditDraftBtn" class="secondary-btn hidden">Cancel Edit</button>
+        </div>
+
+        <div id="draftsList" class="item-list"></div>
+      </section>
+
+      <section id="promptForgeTab" class="tab-panel panel hidden">
+        <h2>AI Prompt Forge</h2>
+
+        <p class="small-note">
+          Choose a prompt type, optionally pick a draft, then generate a clean prompt to paste into ChatGPT, Codex, Claude, Copilot, or another AI tool.
+        </p>
+
+        <div class="prompt-grid">
+          <label>
+            Prompt Type
+            <select id="promptTypeInput">
+              <option value="projectSummary">Summarize Project</option>
+              <option value="continueDraft">Continue Selected Draft</option>
+              <option value="expandDraft">Expand Selected Draft</option>
+              <option value="peerReview">Peer Review Selected Draft</option>
+              <option value="canonCheck">Check Draft Against Canon</option>
+              <option value="publishReady">Make Selected Draft Publish-Ready</option>
+              <option value="nextSteps">Recommend Next Steps</option>
+              <option value="buildFeature">Build Next App Feature</option>
+            </select>
+          </label>
+
+          <label>
+            Select Draft
+            <select id="promptDraftInput">
+              <option value="">No draft selected</option>
+            </select>
+          </label>
+
+          <label class="full-width">
+            Extra Instruction
+            <textarea id="promptExtraInput" placeholder="Optional: Add specific tone, goal, constraints, or what you want the AI to focus on..."></textarea>
+          </label>
+        </div>
+
+        <div class="inline-actions">
+          <button id="generatePromptBtn">Generate Prompt</button>
+          <button id="copyPromptBtn" class="secondary-btn">Copy Prompt</button>
+          <button id="exportPromptBtn" class="secondary-btn">Export Prompt TXT</button>
+          <button id="savePromptBtn" class="success-btn">Save Prompt to Project</button>
+        </div>
+
+        <label>
+          Generated Prompt
+          <textarea id="promptOutput" class="prompt-output" placeholder="Your generated prompt will appear here..."></textarea>
+        </label>
+
+        <h3>Saved Prompts</h3>
+        <div id="promptsList" class="item-list"></div>
+      </section>
+
+      <section id="tasksTab" class="tab-panel panel hidden">
+        <h2>Tasks</h2>
+
+        <div class="task-input-row">
+          <input id="taskInput" type="text" placeholder="Compile PDF, write next chapter, build export button..." />
+          <button id="addTaskBtn">Add Task</button>
+        </div>
+
+        <div id="tasksList" class="item-list"></div>
+      </section>
+    </section>
+  </main>
+
+  <footer>
+    <p>The Carnival Forge v0.3 — AI Prompt Forge</p>
+  </footer>
+
+  <script>
+    const STORAGE_KEY = "carnivalForgeProjects_v03";
+
+    let projects = [];
+    let activeProjectId = null;
+    let editingDraftId = null;
+
+    const $ = id => document.getElementById(id);
+
+    function generateId(prefix) {
+      return `${prefix}_${Date.now()}_${Math.random().toString(36).slice(2, 9)}`;
+    }
+
+    function nowISO() {
+      return new Date().toISOString();
+    }
+
+    function saveProjects() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(projects));
+    }
+
+    function loadProjects() {
+      const saved =
+        localStorage.getItem(STORAGE_KEY) ||
+        localStorage.getItem("carnivalForgeProjects_v02") ||
+        localStorage.getItem("carnivalForgeProjects_v01");
+
+      if (!saved) {
+        projects = [];
+        return;
+      }
+
+      try {
+        projects = JSON.parse(saved);
+        if (!Array.isArray(projects)) projects = [];
+        projects = projects.map(normalizeProject);
+        saveProjects();
+      } catch (error) {
+        console.error(error);
+        projects = [];
+      }
+    }
+
+    function normalizeProject(project) {
+      return {
+        id: project.id || generateId("project"),
+        title: project.title || "Untitled Project",
+        category: project.category || "Uncategorized",
+        description: project.description || "No description yet.",
+        status: project.status || "Active",
+        notes: Array.isArray(project.notes) ? project.notes : [],
+        canon: Array.isArray(project.canon) ? project.canon : [],
+        drafts: Array.isArray(project.drafts) ? project.drafts : [],
+        prompts: Array.isArray(project.prompts) ? project.prompts : [],
+        tasks: Array.isArray(project.tasks) ? project.tasks : [],
+        exports: Array.isArray(project.exports) ? project.exports : [],
+        createdAt: project.createdAt || nowISO(),
+        updatedAt: project.updatedAt || nowISO()
+      };
+    }
+
+    function getActiveProject() {
+      return projects.find(project => project.id === activeProjectId);
+    }
+
+    function createProject() {
+      const title = $("projectTitleInput").value.trim();
+      const category = $("projectCategoryInput").value.trim();
+      const description = $("projectDescriptionInput").value.trim();
+
+      if (!title) {
+        alert("Please enter a project title.");
+        return;
+      }
+
+      const now = nowISO();
+
+      const project = {
+        id: generateId("project"),
+        title,
+        category: category || "Uncategorized",
+        description: description || "No description yet.",
+        status: "Active",
+        notes: [],
+        canon: [],
+        drafts: [],
+        prompts: [],
+        tasks: [],
+        exports: [],
+        createdAt: now,
+        updatedAt: now
+      };
+
+      projects.unshift(project);
+      saveProjects();
+
+      $("projectTitleInput").value = "";
+      $("projectCategoryInput").value = "";
+      $("projectDescriptionInput").value = "";
+
+      renderDashboard();
+      openProject(project.id);
+    }
+
+    function renderDashboard() {
+      const projectList = $("projectList");
+      projectList.innerHTML = "";
+
+      if (projects.length === 0) {
+        projectList.innerHTML = `
+          <div class="project-card">
+            <h3>No projects yet</h3>
+            <p>Create your first project to open the Forge.</p>
+          </div>
+        `;
+        return;
+      }
+
+      projects.forEach(project => {
+        const card = document.createElement("article");
+        card.className = "project-card";
+        card.innerHTML = `
+          <h3>${escapeHTML(project.title)}</h3>
+          <p><strong>Category:</strong> ${escapeHTML(project.category)}</p>
+          <p>${escapeHTML(project.description)}</p>
+          <p class="muted">Updated: ${formatDate(project.updatedAt)}</p>
+          <div class="card-actions">
+            <button data-open-project="${project.id}">Open Project</button>
+          </div>
+        `;
+        projectList.appendChild(card);
+      });
+
+      document.querySelectorAll("[data-open-project]").forEach(button => {
+        button.addEventListener("click", () => openProject(button.dataset.openProject));
+      });
+    }
+
+    function openProject(projectId) {
+      activeProjectId = projectId;
+      $("dashboardView").classList.add("hidden");
+      $("workspaceView").classList.remove("hidden");
+      $("backToDashboardBtn").classList.remove("hidden");
+
+      switchTab("overviewTab");
+      renderWorkspace();
+    }
+
+    function showDashboard() {
+      activeProjectId = null;
+      editingDraftId = null;
+
+      $("workspaceView").classList.add("hidden");
+      $("dashboardView").classList.remove("hidden");
+      $("backToDashboardBtn").classList.add("hidden");
+
+      renderDashboard();
+    }
+
+    function renderWorkspace() {
+      const project = getActiveProject();
+      if (!project) {
+        showDashboard();
+        return;
+      }
+
+      $("workspaceProjectTitle").textContent = project.title;
+      $("workspaceProjectDescription").textContent = project.description;
+
+      renderOverview();
+      renderNotes();
+      renderCanon();
+      renderDrafts();
+      renderPromptForge();
+      renderTasks();
+    }
+
+    function renderOverview() {
+      const project = getActiveProject();
+      if (!project) return;
+
+      $("notesCount").textContent = project.notes.length;
+      $("canonCount").textContent = project.canon.length;
+      $("draftsCount").textContent = project.drafts.length;
+      $("promptsCount").textContent = project.prompts.length;
+      $("tasksCount").textContent = project.tasks.length;
+      $("completedTasksCount").textContent = project.tasks.filter(task => task.completed).length;
+
+      if (project.notes.length === 0) {
+        $("recommendedStep").textContent = "Add your first project note. Capture the messy idea before polishing anything.";
+      } else if (project.canon.length === 0) {
+        $("recommendedStep").textContent = "Add your first canon entry. Start with a character, title, location, or rule that must stay true.";
+      } else if (project.drafts.length === 0) {
+        $("recommendedStep").textContent = "Create your first draft. Try a chapter, scene, rule section, quest, or lore entry.";
+      } else if (project.prompts.length === 0) {
+        $("recommendedStep").textContent = "Use Prompt Forge to generate and save your first AI prompt.";
+      } else {
+        const nextTask = project.tasks.find(task => !task.completed);
+        $("recommendedStep").textContent = nextTask ? `Next task: ${nextTask.title}` : "All current tasks are complete. Add the next milestone.";
+      }
+    }
+
+    function addNote() {
+      const project = getActiveProject();
+      if (!project) return;
+
+      const body = $("noteInput").value.trim();
+      if (!body) {
+        alert("Please write a note first.");
+        return;
+      }
+
+      project.notes.unshift({
+        id: generateId("note"),
+        body,
+        createdAt: nowISO()
+      });
+
+      project.updatedAt = nowISO();
+      $("noteInput").value = "";
+      saveProjects();
+      renderWorkspace();
+    }
+
+    function renderNotes() {
+      const project = getActiveProject();
+      if (!project) return;
+
+      const list = $("notesList");
+      list.innerHTML = "";
+
+      if (project.notes.length === 0) {
+        list.innerHTML = `<div class="item-card"><p>No notes yet.</p></div>`;
+        return;
+      }
+
+      project.notes.forEach(note => {
+        const card = document.createElement("article");
+        card.className = "item-card";
+        card.innerHTML = `
+          <p>${escapeHTML(note.body)}</p>
+          <p class="muted">${formatDate(note.createdAt)}</p>
+          <div class="card-actions">
+            <button class="secondary-btn" data-delete-note="${note.id}">Delete</button>
+          </div>
+        `;
+        list.appendChild(card);
+      });
+
+      document.querySelectorAll("[data-delete-note]").forEach(button => {
+        button.addEventListener("click", () => deleteNote(button.dataset.deleteNote));
+      });
+    }
+
+    function deleteNote(noteId) {
+      const project = getActiveProject();
+      if (!project) return;
+
+      project.notes = project.notes.filter(note => note.id !== noteId);
+      project.updatedAt = nowISO();
+      saveProjects();
+      renderWorkspace();
+    }
+
+    function addCanon() {
+      const project = getActiveProject();
+      if (!project) return;
+
+      const name = $("canonNameInput").value.trim();
+      const type = $("canonTypeInput").value.trim();
+      const status = $("canonStatusInput").value;
+      const description = $("canonDescriptionInput").value.trim();
+
+      if (!name || !description) {
+        alert("Please enter at least a canon name and description.");
+        return;
+      }
+
+      project.canon.unshift({
+        id: generateId("canon"),
+        name,
+        type: type || "General",
+        status,
+        description,
+        createdAt: nowISO()
+      });
+
+      project.updatedAt = nowISO();
+
+      $("canonNameInput").value = "";
+      $("canonTypeInput").value = "";
+      $("canonStatusInput").value = "Active Canon";
+      $("canonDescriptionInput").value = "";
+
+      saveProjects();
+      renderWorkspace();
+    }
+
+    function renderCanon() {
+      const project = getActiveProject();
+      if (!project) return;
+
+      const list = $("canonList");
+      list.innerHTML = "";
+
+      if (project.canon.length === 0) {
+        list.innerHTML = `<div class="item-card"><p>No canon entries yet.</p></div>`;
+        return;
+      }
+
+      project.canon.forEach(entry => {
+        const card = document.createElement("article");
+        card.className = "item-card";
+        card.innerHTML = `
+          <h3>${escapeHTML(entry.name)}</h3>
+          <p>
+            <span class="badge">${escapeHTML(entry.type)}</span>
+            <span class="badge">${escapeHTML(entry.status)}</span>
+          </p>
+          <p>${escapeHTML(entry.description)}</p>
+          <p class="muted">${formatDate(entry.createdAt)}</p>
+          <div class="card-actions">
+            <button class="secondary-btn" data-delete-canon="${entry.id}">Delete</button>
+          </div>
+        `;
+        list.appendChild(card);
+      });
+
+      document.querySelectorAll("[data-delete-canon]").forEach(button => {
+        button.addEventListener("click", () => deleteCanon(button.dataset.deleteCanon));
+      });
+    }
+
+    function deleteCanon(canonId) {
+      const project = getActiveProject();
+      if (!project) return;
+
+      project.canon = project.canon.filter(entry => entry.id !== canonId);
+      project.updatedAt = nowISO();
+      saveProjects();
+      renderWorkspace();
+    }
+
+    function saveNewDraft() {
+      const project = getActiveProject();
+      if (!project) return;
+
+      const title = $("draftTitleInput").value.trim();
+      const type = $("draftTypeInput").value;
+      const status = $("draftStatusInput").value;
+      const body = $("draftBodyInput").value.trim();
+
+      if (!title || !body) {
+        alert("Please enter at least a draft title and body.");
+        return;
+      }
+
+      project.drafts.unshift({
+        id: generateId("draft"),
+        title,
+        type,
+        status,
+        body,
+        version: 1,
+        createdAt: nowISO(),
+        updatedAt: nowISO()
+      });
+
+      project.updatedAt = nowISO();
+      clearDraftEditor();
+      saveProjects();
+      renderWorkspace();
+    }
+
+    function renderDrafts() {
+      const project = getActiveProject();
+      if (!project) return;
+
+      const list = $("draftsList");
+      list.innerHTML = "";
+
+      if (project.drafts.length === 0) {
+        list.innerHTML = `<div class="item-card"><p>No drafts yet.</p></div>`;
+        return;
+      }
+
+      project.drafts.forEach(draft => {
+        const card = document.createElement("article");
+        card.className = "item-card";
+        card.innerHTML = `
+          <h3>${escapeHTML(draft.title)}</h3>
+          <p>
+            <span class="badge">${escapeHTML(draft.type || "Draft")}</span>
+            <span class="badge">${escapeHTML(draft.status || "Drafting")}</span>
+            <span class="badge">v${escapeHTML(draft.version || 1)}</span>
+          </p>
+          <p class="muted">Updated: ${formatDate(draft.updatedAt || draft.createdAt)}</p>
+          <p class="draft-body-preview">${escapeHTML(draft.body || "")}</p>
+          <div class="card-actions">
+            <button data-edit-draft="${draft.id}">Edit</button>
+            <button class="secondary-btn" data-copy-draft="${draft.id}">Copy Text</button>
+            <button class="secondary-btn" data-export-draft="${draft.id}">Export TXT</button>
+            <button class="danger-btn" data-delete-draft="${draft.id}">Delete</button>
+          </div>
+        `;
+        list.appendChild(card);
+      });
+
+      document.querySelectorAll("[data-edit-draft]").forEach(button => {
+        button.addEventListener("click", () => editDraft(button.dataset.editDraft));
+      });
+
+      document.querySelectorAll("[data-copy-draft]").forEach(button => {
+        button.addEventListener("click", () => copyDraftText(button.dataset.copyDraft));
+      });
+
+      document.querySelectorAll("[data-export-draft]").forEach(button => {
+        button.addEventListener("click", () => exportDraftText(button.dataset.exportDraft));
+      });
+
+      document.querySelectorAll("[data-delete-draft]").forEach(button => {
+        button.addEventListener("click", () => deleteDraft(button.dataset.deleteDraft));
+      });
+    }
+
+    function editDraft(draftId) {
+      const project = getActiveProject();
+      if (!project) return;
+
+      const draft = project.drafts.find(item => item.id === draftId);
+      if (!draft) return;
+
+      editingDraftId = draftId;
+
+      $("draftTitleInput").value = draft.title || "";
+      $("draftTypeInput").value = draft.type || "Other";
+      $("draftStatusInput").value = draft.status || "Drafting";
+      $("draftBodyInput").value = draft.body || "";
+
+      $("saveDraftBtn").classList.add("hidden");
+      $("updateDraftBtn").classList.remove("hidden");
+      $("cancelEditDraftBtn").classList.remove("hidden");
+
+      switchTab("draftsTab");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function updateDraft() {
+      const project = getActiveProject();
+      if (!project || !editingDraftId) return;
+
+      const draft = project.drafts.find(item => item.id === editingDraftId);
+      if (!draft) return;
+
+      const title = $("draftTitleInput").value.trim();
+      const body = $("draftBodyInput").value.trim();
+
+      if (!title || !body) {
+        alert("Please enter at least a draft title and body.");
+        return;
+      }
+
+      draft.title = title;
+      draft.type = $("draftTypeInput").value;
+      draft.status = $("draftStatusInput").value;
+      draft.body = body;
+      draft.version = (draft.version || 1) + 1;
+      draft.updatedAt = nowISO();
+
+      project.updatedAt = nowISO();
+
+      clearDraftEditor();
+      saveProjects();
+      renderWorkspace();
+    }
+
+    function clearDraftEditor() {
+      editingDraftId = null;
+
+      $("draftTitleInput").value = "";
+      $("draftTypeInput").value = "Chapter";
+      $("draftStatusInput").value = "Idea";
+      $("draftBodyInput").value = "";
+
+      $("saveDraftBtn").classList.remove("hidden");
+      $("updateDraftBtn").classList.add("hidden");
+      $("cancelEditDraftBtn").classList.add("hidden");
+    }
+
+    function deleteDraft(draftId) {
+      const project = getActiveProject();
+      if (!project) return;
+
+      const draft = project.drafts.find(item => item.id === draftId);
+      if (!draft) return;
+
+      if (!confirm(`Delete draft "${draft.title}"?`)) return;
+
+      project.drafts = project.drafts.filter(item => item.id !== draftId);
+      project.updatedAt = nowISO();
+
+      if (editingDraftId === draftId) clearDraftEditor();
+
+      saveProjects();
+      renderWorkspace();
+    }
+
+    function copyDraftText(draftId) {
+      const project = getActiveProject();
+      if (!project) return;
+
+      const draft = project.drafts.find(item => item.id === draftId);
+      if (!draft) return;
+
+      copyText(`${draft.title}\n\n${draft.body}`, "Draft copied to clipboard.");
+    }
+
+    function exportDraftText(draftId) {
+      const project = getActiveProject();
+      if (!project) return;
+
+      const draft = project.drafts.find(item => item.id === draftId);
+      if (!draft) return;
+
+      const text = `${draft.title}\nType: ${draft.type}\nStatus: ${draft.status}\nVersion: ${draft.version || 1}\n\n${draft.body}`;
+      downloadFile(`${makeSafeFileName(draft.title)}.txt`, text, "text/plain");
+    }
+
+    function renderPromptForge() {
+      const project = getActiveProject();
+      if (!project) return;
+
+      const selector = $("promptDraftInput");
+      const currentValue = selector.value;
+
+      selector.innerHTML = `<option value="">No draft selected</option>`;
+
+      project.drafts.forEach(draft => {
+        const option = document.createElement("option");
+        option.value = draft.id;
+        option.textContent = draft.title;
+        selector.appendChild(option);
+      });
+
+      selector.value = currentValue;
+
+      const list = $("promptsList");
+      list.innerHTML = "";
+
+      if (project.prompts.length === 0) {
+        list.innerHTML = `<div class="item-card"><p>No saved prompts yet.</p></div>`;
+        return;
+      }
+
+      project.prompts.forEach(prompt => {
+        const card = document.createElement("article");
+        card.className = "item-card";
+        card.innerHTML = `
+          <h3>${escapeHTML(prompt.title)}</h3>
+          <p>
+            <span class="badge">${escapeHTML(prompt.type)}</span>
+            <span class="badge">${formatDate(prompt.createdAt)}</span>
+          </p>
+          <p class="draft-body-preview">${escapeHTML(prompt.body)}</p>
+          <div class="card-actions">
+            <button data-load-prompt="${prompt.id}">Load</button>
+            <button class="secondary-btn" data-copy-saved-prompt="${prompt.id}">Copy</button>
+            <button class="secondary-btn" data-export-saved-prompt="${prompt.id}">Export TXT</button>
+            <button class="danger-btn" data-delete-prompt="${prompt.id}">Delete</button>
+          </div>
+        `;
+        list.appendChild(card);
+      });
+
+      document.querySelectorAll("[data-load-prompt]").forEach(button => {
+        button.addEventListener("click", () => loadSavedPrompt(button.dataset.loadPrompt));
+      });
+
+      document.querySelectorAll("[data-copy-saved-prompt]").forEach(button => {
+        button.addEventListener("click", () => copySavedPrompt(button.dataset.copySavedPrompt));
+      });
+
+      document.querySelectorAll("[data-export-saved-prompt]").forEach(button => {
+        button.addEventListener("click", () => exportSavedPrompt(button.dataset.exportSavedPrompt));
+      });
+
+      document.querySelectorAll("[data-delete-prompt]").forEach(button => {
+        button.addEventListener("click", () => deleteSavedPrompt(button.dataset.deletePrompt));
+      });
+    }
+
+    function generatePrompt() {
+      const project = getActiveProject();
+      if (!project) return;
+
+      const promptType = $("promptTypeInput").value;
+      const draftId = $("promptDraftInput").value;
+      const extra = $("promptExtraInput").value.trim();
+      const draft = project.drafts.find(item => item.id === draftId);
+
+      const canonBlock = project.canon.length
+        ? project.canon.map(entry => `- ${entry.name} (${entry.type}, ${entry.status}): ${entry.description}`).join("\n")
+        : "- No canon entries yet.";
+
+      const notesBlock = project.notes.length
+        ? project.notes.map(note => `- ${note.body}`).join("\n")
+        : "- No notes yet.";
+
+      const tasksBlock = project.tasks.length
+        ? project.tasks.map(task => `- [${task.completed ? "x" : " "}] ${task.title}`).join("\n")
+        : "- No tasks yet.";
+
+      const draftBlock = draft
+        ? `Title: ${draft.title}\nType: ${draft.type}\nStatus: ${draft.status}\nVersion: ${draft.version || 1}\n\n${draft.body}`
+        : "No draft selected.";
+
+      let taskInstruction = "";
+
+      if (promptType === "projectSummary") {
+        taskInstruction = "Summarize this project clearly. Identify the current purpose, what exists so far, what is missing, and the best next move.";
+      }
+
+      if (promptType === "continueDraft") {
+        taskInstruction = "Continue the selected draft in the same tone and direction. Preserve canon. Do not restart from the beginning unless necessary.";
+      }
+
+      if (promptType === "expandDraft") {
+        taskInstruction = "Expand the selected draft into a fuller, stronger version. Add detail, flow, structure, and emotional weight while preserving the original intent.";
+      }
+
+      if (promptType === "peerReview") {
+        taskInstruction = "Peer review the selected draft. Check clarity, pacing, structure, emotional impact, marketability, continuity, and weak spots. Give actionable fixes.";
+      }
+
+      if (promptType === "canonCheck") {
+        taskInstruction = "Check the selected draft against the project canon. Identify contradictions, deprecated terms, missing continuity bridges, and places where canon should be reinforced.";
+      }
+
+      if (promptType === "publishReady") {
+        taskInstruction = "Rewrite or revise the selected draft toward a cleaner publish-ready version. Preserve the core voice and meaning. Improve readability, flow, grammar, structure, and polish.";
+      }
+
+      if (promptType === "nextSteps") {
+        taskInstruction = "Recommend the next practical development steps for this project. Prioritize what should be built, written, revised, or exported next.";
+      }
+
+      if (promptType === "buildFeature") {
+        taskInstruction = "Act as a careful app builder. Recommend and design the next app feature using complete-file replacement when possible. Avoid tiny patch instructions unless absolutely necessary.";
+      }
+
+      const prompt = `You are helping develop the following project inside The Carnival Forge.
+
+PROJECT
+Title: ${project.title}
+Category: ${project.category}
+Description: ${project.description}
+Status: ${project.status}
+
+CURRENT CANON
+${canonBlock}
+
+CURRENT NOTES
+${notesBlock}
+
+CURRENT TASKS
+${tasksBlock}
+
+SELECTED DRAFT
+${draftBlock}
+
+TASK
+${taskInstruction}
+
+EXTRA INSTRUCTION
+${extra || "No extra instruction."}
+
+RESPONSE REQUIREMENTS
+- Be practical and specific.
+- Preserve the project’s existing canon and intent.
+- Point out any assumptions.
+- If writing or revising prose, keep the voice strong and readable.
+- If giving code, prefer complete replacement files when possible.
+- If recommending next steps, order them from most important to least important.`;
+
+      $("promptOutput").value = prompt;
+    }
+
+    function saveCurrentPrompt() {
+      const project = getActiveProject();
+      if (!project) return;
+
+      const body = $("promptOutput").value.trim();
+      if (!body) {
+        alert("Generate a prompt first.");
+        return;
+      }
+
+      const type = $("promptTypeInput").value;
+      const title = `Prompt: ${getPromptTypeLabel(type)}`;
+
+      project.prompts.unshift({
+        id: generateId("prompt"),
+        title,
+        type: getPromptTypeLabel(type),
+        body,
+        createdAt: nowISO()
+      });
+
+      project.updatedAt = nowISO();
+      saveProjects();
+      renderWorkspace();
+      alert("Prompt saved to project.");
+    }
+
+    function getPromptTypeLabel(value) {
+      const labels = {
+        projectSummary: "Summarize Project",
+        continueDraft: "Continue Draft",
+        expandDraft: "Expand Draft",
+        peerReview: "Peer Review",
+        canonCheck: "Canon Check",
+        publishReady: "Publish-Ready Rewrite",
+        nextSteps: "Next Steps",
+        buildFeature: "Build Feature"
+      };
+
+      return labels[value] || "Prompt";
+    }
+
+    function loadSavedPrompt(promptId) {
+      const project = getActiveProject();
+      if (!project) return;
+
+      const prompt = project.prompts.find(item => item.id === promptId);
+      if (!prompt) return;
+
+      $("promptOutput").value = prompt.body;
+      switchTab("promptForgeTab");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function copySavedPrompt(promptId) {
+      const project = getActiveProject();
+      if (!project) return;
+
+      const prompt = project.prompts.find(item => item.id === promptId);
+      if (!prompt) return;
+
+      copyText(prompt.body, "Prompt copied to clipboard.");
+    }
+
+    function exportSavedPrompt(promptId) {
+      const project = getActiveProject();
+      if (!project) return;
+
+      const prompt = project.prompts.find(item => item.id === promptId);
+      if (!prompt) return;
+
+      downloadFile(`${makeSafeFileName(prompt.title)}.txt`, prompt.body, "text/plain");
+    }
+
+    function deleteSavedPrompt(promptId) {
+      const project = getActiveProject();
+      if (!project) return;
+
+      if (!confirm("Delete this saved prompt?")) return;
+
+      project.prompts = project.prompts.filter(item => item.id !== promptId);
+      project.updatedAt = nowISO();
+
+      saveProjects();
+      renderWorkspace();
+    }
+
+    function copyCurrentPrompt() {
+      const text = $("promptOutput").value.trim();
+      if (!text) {
+        alert("Generate a prompt first.");
+        return;
+      }
+
+      copyText(text, "Prompt copied to clipboard.");
+    }
+
+    function exportCurrentPrompt() {
+      const text = $("promptOutput").value.trim();
+      if (!text) {
+        alert("Generate a prompt first.");
+        return;
+      }
+
+      downloadFile("carnival-forge-prompt.txt", text, "text/plain");
+    }
+
+    function addTask() {
+      const project = getActiveProject();
+      if (!project) return;
+
+      const title = $("taskInput").value.trim();
+      if (!title) {
+        alert("Please enter a task.");
+        return;
+      }
+
+      project.tasks.unshift({
+        id: generateId("task"),
+        title,
+        completed: false,
+        createdAt: nowISO()
+      });
+
+      project.updatedAt = nowISO();
+      $("taskInput").value = "";
+      saveProjects();
+      renderWorkspace();
+    }
+
+    function renderTasks() {
+      const project = getActiveProject();
+      if (!project) return;
+
+      const list = $("tasksList");
+      list.innerHTML = "";
+
+      if (project.tasks.length === 0) {
+        list.innerHTML = `<div class="item-card"><p>No tasks yet.</p></div>`;
+        return;
+      }
+
+      project.tasks.forEach(task => {
+        const card = document.createElement("article");
+        card.className = "item-card";
+        card.innerHTML = `
+          <h3 class="${task.completed ? "task-complete" : ""}">${escapeHTML(task.title)}</h3>
+          <p class="muted">${formatDate(task.createdAt)}</p>
+          <div class="card-actions">
+            <button data-toggle-task="${task.id}">${task.completed ? "Mark Incomplete" : "Mark Complete"}</button>
+            <button class="secondary-btn" data-delete-task="${task.id}">Delete</button>
+          </div>
+        `;
+        list.appendChild(card);
+      });
+
+      document.querySelectorAll("[data-toggle-task]").forEach(button => {
+        button.addEventListener("click", () => toggleTask(button.dataset.toggleTask));
+      });
+
+      document.querySelectorAll("[data-delete-task]").forEach(button => {
+        button.addEventListener("click", () => deleteTask(button.dataset.deleteTask));
+      });
+    }
+
+    function toggleTask(taskId) {
+      const project = getActiveProject();
+      if (!project) return;
+
+      const task = project.tasks.find(item => item.id === taskId);
+      if (!task) return;
+
+      task.completed = !task.completed;
+      project.updatedAt = nowISO();
+
+      saveProjects();
+      renderWorkspace();
+    }
+
+    function deleteTask(taskId) {
+      const project = getActiveProject();
+      if (!project) return;
+
+      project.tasks = project.tasks.filter(task => task.id !== taskId);
+      project.updatedAt = nowISO();
+
+      saveProjects();
+      renderWorkspace();
+    }
+
+    function exportActiveProject() {
+      const project = getActiveProject();
+      if (!project) return;
+
+      downloadFile(`${makeSafeFileName(project.title)}-backup.json`, JSON.stringify(project, null, 2), "application/json");
+    }
+
+    function importProject(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+
+      reader.onload = function () {
+        try {
+          const imported = normalizeProject(JSON.parse(reader.result));
+
+          if (!imported.title || !imported.id) {
+            alert("This does not look like a valid Carnival Forge project backup.");
+            return;
+          }
+
+          const existingIndex = projects.findIndex(project => project.id === imported.id);
+          imported.updatedAt = nowISO();
+
+          if (existingIndex >= 0) {
+            if (!confirm("A project with this ID already exists. Replace it?")) return;
+            projects[existingIndex] = imported;
+          } else {
+            projects.unshift(imported);
+          }
+
+          saveProjects();
+          renderDashboard();
+          alert("Project imported successfully.");
+        } catch (error) {
+          console.error(error);
+          alert("Could not import this file.");
+        }
+      };
+
+      reader.readAsText(file);
+      event.target.value = "";
+    }
+
+    function deleteActiveProject() {
+      const project = getActiveProject();
+      if (!project) return;
+
+      if (!confirm(`Delete "${project.title}"? This cannot be undone unless you exported a backup.`)) return;
+
+      projects = projects.filter(item => item.id !== project.id);
+      saveProjects();
+      showDashboard();
+    }
+
+    function switchTab(tabId) {
+      document.querySelectorAll(".tab-btn").forEach(button => {
+        button.classList.toggle("active", button.dataset.tab === tabId);
+      });
+
+      document.querySelectorAll(".tab-panel").forEach(panel => {
+        panel.classList.toggle("hidden", panel.id !== tabId);
+      });
+    }
+
+    function seedStarterProjectIfEmpty() {
+      if (projects.length > 0) return;
+
+      const now = nowISO();
+
+      projects.push({
+        id: generateId("project"),
+        title: "The Carnival Forge",
+        category: "Creative Engine",
+        description: "A creative command center for building worlds, books, games, canon, drafts, prompts, tasks, and exports.",
+        status: "Active",
+        notes: [
+          {
+            id: generateId("note"),
+            body: "First goal: build the project core, draft manager, and prompt forge using a single-file replacement workflow.",
+            createdAt: now
+          }
+        ],
+        canon: [
+          {
+            id: generateId("canon"),
+            name: "The Carnival Forge",
+            type: "Project Title",
+            status: "Active Canon",
+            description: "The main creative engine being built as a browser-first app that can later grow into a full creative operating system.",
+            createdAt: now
+          }
+        ],
+        drafts: [
+          {
+            id: generateId("draft"),
+            title: "Chapter 1: Parking Lot Pimping",
+            type: "Chapter",
+            status: "Idea",
+            body: "First chapter of my first Gathering experience.",
+            version: 1,
+            createdAt: now,
+            updatedAt: now
+          }
+        ],
+        prompts: [],
+        tasks: [
+          {
+            id: generateId("task"),
+            title: "Test AI Prompt Forge",
+            completed: false,
+            createdAt: now
+          },
+          {
+            id: generateId("task"),
+            title: "Generate a Continue Draft prompt",
+            completed: false,
+            createdAt: now
+          },
+          {
+            id: generateId("task"),
+            title: "Export v0.3 JSON backup",
+            completed: false,
+            createdAt: now
+          }
+        ],
+        exports: [],
+        createdAt: now,
+        updatedAt: now
+      });
+
+      saveProjects();
+    }
+
+    function setupEventListeners() {
+      $("createProjectBtn").addEventListener("click", createProject);
+      $("backToDashboardBtn").addEventListener("click", showDashboard);
+      $("addNoteBtn").addEventListener("click", addNote);
+      $("addCanonBtn").addEventListener("click", addCanon);
+      $("saveDraftBtn").addEventListener("click", saveNewDraft);
+      $("updateDraftBtn").addEventListener("click", updateDraft);
+      $("cancelEditDraftBtn").addEventListener("click", clearDraftEditor);
+
+      $("generatePromptBtn").addEventListener("click", generatePrompt);
+      $("copyPromptBtn").addEventListener("click", copyCurrentPrompt);
+      $("exportPromptBtn").addEventListener("click", exportCurrentPrompt);
+      $("savePromptBtn").addEventListener("click", saveCurrentPrompt);
+
+      $("addTaskBtn").addEventListener("click", addTask);
+      $("exportProjectBtn").addEventListener("click", exportActiveProject);
+      $("deleteProjectBtn").addEventListener("click", deleteActiveProject);
+      $("importFileInput").addEventListener("change", importProject);
+
+      document.querySelectorAll(".tab-btn").forEach(button => {
+        button.addEventListener("click", () => switchTab(button.dataset.tab));
+      });
+
+      $("taskInput").addEventListener("keydown", event => {
+        if (event.key === "Enter") addTask();
+      });
+
+      $("projectTitleInput").addEventListener("keydown", event => {
+        if (event.key === "Enter") createProject();
+      });
+    }
+
+    function downloadFile(filename, content, type) {
+      const blob = new Blob([content], { type });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+
+      link.href = url;
+      link.download = filename;
+
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      URL.revokeObjectURL(url);
+    }
+
+    function copyText(text, successMessage) {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text)
+          .then(() => alert(successMessage))
+          .catch(() => fallbackCopy(text));
+      } else {
+        fallbackCopy(text);
+      }
+    }
+
+    function fallbackCopy(text) {
+      const temp = document.createElement("textarea");
+      temp.value = text;
+      document.body.appendChild(temp);
+      temp.select();
+
+      try {
+        document.execCommand("copy");
+        alert("Copied to clipboard.");
+      } catch (error) {
+        alert("Could not copy automatically. Select the text manually and copy it.");
+      }
+
+      document.body.removeChild(temp);
+    }
+
+    function makeSafeFileName(value) {
+      return String(value)
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/(^-|-$)/g, "") || "file";
+    }
+
+    function formatDate(dateString) {
+      if (!dateString) return "Unknown date";
+
+      const date = new Date(dateString);
+      if (Number.isNaN(date.getTime())) return "Unknown date";
+
+      return date.toLocaleString();
+    }
+
+    function escapeHTML(value) {
+      return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function initApp() {
+      setupEventListeners();
+      loadProjects();
+      seedStarterProjectIfEmpty();
+      renderDashboard();
+      console.log("The Carnival Forge v0.3 loaded successfully.");
+    }
+
+    document.addEventListener("DOMContentLoaded", initApp);
+  </script>
+</body>
+        </html>
