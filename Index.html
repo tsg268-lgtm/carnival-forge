@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>The Carnival Forge</title>
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="app-header">
+    <div>
+      <h1>The Carnival Forge</h1>
+      <p>A creative engine for worlds, books, games, canon, drafts, tasks, and exports.</p>
+    </div>
+
+    <button id="backToDashboardBtn" class="secondary-btn hidden">Dashboard</button>
+  </header>
+
+  <main>
+    <!-- DASHBOARD -->
+    <section id="dashboardView" class="view">
+      <section class="panel">
+        <h2>Create New Project</h2>
+
+        <div class="form-grid">
+          <label>
+            Project Title
+            <input id="projectTitleInput" type="text" placeholder="Dark Carnival Universe" />
+          </label>
+
+          <label>
+            Category
+            <input id="projectCategoryInput" type="text" placeholder="Worldbuilding, Game, Book, System..." />
+          </label>
+
+          <label class="full-width">
+            Description
+            <textarea id="projectDescriptionInput" placeholder="What is this project?"></textarea>
+          </label>
+        </div>
+
+        <button id="createProjectBtn">Create Project</button>
+      </section>
+
+      <section class="panel">
+        <h2>Your Projects</h2>
+        <div id="projectList" class="project-list"></div>
+      </section>
+
+      <section class="panel">
+        <h2>Import Backup</h2>
+        <p class="muted">Import a JSON backup created by The Carnival Forge.</p>
+        <input id="importFileInput" type="file" accept=".json,application/json" />
+      </section>
+    </section>
+
+    <!-- WORKSPACE -->
+    <section id="workspaceView" class="view hidden">
+      <section class="workspace-title panel">
+        <div>
+          <h2 id="workspaceProjectTitle">Project Title</h2>
+          <p id="workspaceProjectDescription" class="muted"></p>
+        </div>
+
+        <div class="workspace-actions">
+          <button id="exportProjectBtn" class="secondary-btn">Export JSON</button>
+          <button id="deleteProjectBtn" class="danger-btn">Delete Project</button>
+        </div>
+      </section>
+
+      <nav class="tabs">
+        <button class="tab-btn active" data-tab="overviewTab">Overview</button>
+        <button class="tab-btn" data-tab="notesTab">Notes</button>
+        <button class="tab-btn" data-tab="canonTab">Canon</button>
+        <button class="tab-btn" data-tab="tasksTab">Tasks</button>
+      </nav>
+
+      <!-- OVERVIEW TAB -->
+      <section id="overviewTab" class="tab-panel panel">
+        <h2>Overview</h2>
+
+        <div class="stats-grid">
+          <div class="stat-card">
+            <span id="notesCount">0</span>
+            <p>Notes</p>
+          </div>
+
+          <div class="stat-card">
+            <span id="canonCount">0</span>
+            <p>Canon Entries</p>
+          </div>
+
+          <div class="stat-card">
+            <span id="tasksCount">0</span>
+            <p>Tasks</p>
+          </div>
+
+          <div class="stat-card">
+            <span id="completedTasksCount">0</span>
+            <p>Completed Tasks</p>
+          </div>
+        </div>
+
+        <h3>Next Recommended Step</h3>
+        <p id="recommendedStep" class="callout">
+          Add your first note, canon entry, or task.
+        </p>
+      </section>
+
+      <!-- NOTES TAB -->
+      <section id="notesTab" class="tab-panel panel hidden">
+        <h2>Notes</h2>
+
+        <textarea id="noteInput" placeholder="Drop raw ideas, scene fragments, mechanics, plans, or messy thoughts here..."></textarea>
+        <button id="addNoteBtn">Add Note</button>
+
+        <div id="notesList" class="item-list"></div>
+      </section>
+
+      <!-- CANON TAB -->
+      <section id="canonTab" class="tab-panel panel hidden">
+        <h2>Canon</h2>
+
+        <div class="form-grid">
+          <label>
+            Name
+            <input id="canonNameInput" type="text" placeholder="Riven Hale" />
+          </label>
+
+          <label>
+            Type
+            <input id="canonTypeInput" type="text" placeholder="Character, Location, Rule, Title..." />
+          </label>
+
+          <label>
+            Status
+            <select id="canonStatusInput">
+              <option value="Active Canon">Active Canon</option>
+              <option value="Deprecated">Deprecated</option>
+              <option value="Draft">Draft</option>
+              <option value="Needs Review">Needs Review</option>
+            </select>
+          </label>
+
+          <label class="full-width">
+            Description
+            <textarea id="canonDescriptionInput" placeholder="What is permanently true about this?"></textarea>
+          </label>
+        </div>
+
+        <button id="addCanonBtn">Add Canon Entry</button>
+
+        <div id="canonList" class="item-list"></div>
+      </section>
+
+      <!-- TASKS TAB -->
+      <section id="tasksTab" class="tab-panel panel hidden">
+        <h2>Tasks</h2>
+
+        <div class="task-input-row">
+          <input id="taskInput" type="text" placeholder="Compile PDF, write next chapter, build export button..." />
+          <button id="addTaskBtn">Add Task</button>
+        </div>
+
+        <div id="tasksList" class="item-list"></div>
+      </section>
+    </section>
+  </main>
+
+  <footer>
+    <p>The Carnival Forge v0.1 — Project Core</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
